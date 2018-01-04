@@ -56,10 +56,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void loadJSON() {
 
+        //instance interface class with class apiclient
         TypiCodeServices typiCodeServices = ApiClient.getClient().create(TypiCodeServices.class);
 
+        // interface retrofit Call to send request webserver and returns response
         Call<ArrayList<Model>> call = typiCodeServices.data();
 
+        // Callback / Communicates responses from a server or offline requests
         call.enqueue(new Callback<ArrayList<Model>>() {
             @Override
             public void onResponse(Call<ArrayList<Model>> call, Response<ArrayList<Model>> response) {
