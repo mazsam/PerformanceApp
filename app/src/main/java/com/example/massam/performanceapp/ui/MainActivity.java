@@ -14,6 +14,7 @@ import com.example.massam.performanceapp.adapter.DataAdapter;
 import com.example.massam.performanceapp.api.ApiClient;
 import com.example.massam.performanceapp.api.TypiCodeServices;
 import com.example.massam.performanceapp.model.Model;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +39,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void initView (){
         recyclerView = (RecyclerView)findViewById(R.id.rv_main);
+
+        //same hight recyclerview
         recyclerView.setHasFixedSize(true);
+
+        //add cache
+        recyclerView.setItemViewCacheSize(20);
+        recyclerView.setDrawingCacheEnabled(true);
+        recyclerView.setDrawingCacheQuality(recyclerView.DRAWING_CACHE_QUALITY_HIGH);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        DataAdapter cardViewPresidentAdapter = new DataAdapter(this);
-        cardViewPresidentAdapter.setListData(listData);
-        recyclerView.setAdapter(cardViewPresidentAdapter);
+        DataAdapter cardViewAdapter = new DataAdapter(this);
+        cardViewAdapter.setListData(listData);
+        recyclerView.setAdapter(cardViewAdapter);
     }
 
     public void loadJSON() {
@@ -56,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<ArrayList<Model>> call, Response<ArrayList<Model>> response) {
                 List<Model> result = response.body();
                 listData = new ArrayList<>();
+                Log.d("yeah", "onResponse: "+new Gson().toJson(result));
 
                 listData.addAll(result);
 
